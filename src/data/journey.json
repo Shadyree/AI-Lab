@@ -1,0 +1,127 @@
+[
+  {
+    "year": 2020,
+    "titleEn": "Started Java Developer Career",
+    "titleZh": "开启 Java 开发之路",
+    "roleEn": "Java Developer",
+    "roleZh": "Java 开发工程师",
+    "period": "2020.03 - 2024.07",
+    "descEn": "Entered the property SaaS industry, learning enterprise-level system architecture from scratch. Grew into a full-stack engineer capable of independently delivering core modules.",
+    "descZh": "进入物业 SaaS 行业，从零开始学习企业级系统架构与业务领域知识，逐步成长为能够独立承担核心模块开发的全栈工程师。",
+    "highlightsEn": [
+      "Independently developed tenant on/offboarding module for SaaS platform",
+      "Built parking coupon module with cross-platform data sync",
+      "Completed elevator control module for owner APP (full-stack)",
+      "Led most business features for Zhongtian Mall",
+      "Independently developed activity booking platform",
+      "Integrated ICBC payment API",
+      "Long-term production system maintenance and issue resolution"
+    ],
+    "highlightsZh": [
+      "独立完成物业 SaaS 平台租户迁入迁出模块开发",
+      "独立完成停车优惠券模块，实现跨平台数据互通",
+      "完成业主 APP 梯控功能前后端开发",
+      "负责中天商城大部分业务功能开发",
+      "独立开发活动预约平台，完成商城业务改造",
+      "参与工行支付接口联调",
+      "长期负责线上系统维护与问题排查"
+    ],
+    "techStack": ["Java", "Spring Boot", "Vue", "uni-app", "Redis", "MySQL", "Nacos"]
+  },
+  {
+    "year": 2022,
+    "titleEn": "Led Platform Development",
+    "titleZh": "主导平台开发",
+    "roleEn": "Java Developer",
+    "roleZh": "Java 开发工程师",
+    "period": "2022.05 - 2024.07",
+    "descEn": "Led the activity booking platform from 0 to 1, independently delivering the full business workflow. Also responsible for daily development and maintenance of the Rainbow Card platform.",
+    "descZh": "主导活动预约平台的从 0 到 1 搭建，独立完成核心业务全流程开发，同时负责中铁彩虹一卡通平台的日常开发与系统维护。",
+    "highlightsEn": [
+      "Built full booking workflow (SKU, orders, categories, user management)",
+      "Developed Banner and homepage frontend pages",
+      "Refactored mall frontend for better UX",
+      "Maintained Rainbow Card platform and resolved production bugs"
+    ],
+    "highlightsZh": [
+      "独立完成预约业务全流程开发（SKU、订单、分类、用户管理）",
+      "完成 Banner、首页等前端页面开发",
+      "重构商城前端样式，提升用户体验",
+      "负责中铁彩虹一卡通平台日常开发与 Bug 修复"
+    ],
+    "techStack": ["Ruoyi", "Spring Boot", "Redis", "Docker", "MySQL"]
+  },
+  {
+    "year": 2024,
+    "titleEn": "Promoted to IT Supervisor",
+    "titleZh": "晋升 IT 技术主管",
+    "roleEn": "IT Technical Supervisor",
+    "roleZh": "IT 技术主管",
+    "period": "2024.07 - 至今",
+    "descEn": "Promoted to technical supervisor, leading smart parking implementation, comprehensive platform development, and enterprise digital transformation. Coordinating system deployment, vendor relations, and team management.",
+    "descZh": "晋升为技术主管，负责智慧停车项目实施、综合平台开发及企业数字化平台建设，统筹系统部署、供应商协调及团队管理。",
+    "highlightsEn": [
+      "Led smart parking project implementation and on-site support",
+      "Developed Rainbow comprehensive platform and Rainbow system",
+      "Managed server deployment, Linux config, and system launch",
+      "Coordinated vendor API integration and project delivery",
+      "Production bug investigation, log analysis, and system stability"
+    ],
+    "highlightsZh": [
+      "负责智慧停车项目实施及现场技术支持",
+      "负责彩虹综合平台及 Rainbow 系统开发与维护",
+      "负责服务器部署、Linux 环境配置及系统上线",
+      "协调供应商进行接口联调及项目实施",
+      "负责线上 Bug 排查、日志分析及系统稳定性维护"
+    ],
+    "techStack": ["Java", "Spring Boot", "Vue", "Element UI", "Ruoyi", "MyBatis", "Docker"]
+  },
+  {
+    "year": 2025,
+    "titleEn": "Deep Dive into AI",
+    "titleZh": "深入 AI 领域",
+    "roleEn": "AI Explorer",
+    "roleZh": "AI 探索者",
+    "period": "2025",
+    "descEn": "Started the AI journey: learned Ollama, independently deployed Deepseek locally, attended the first Modifangzhou Guizhou AI Developer Conference, and gained comprehensive understanding of domestic AI models and chat tools.",
+    "descZh": "正式踏入 AI 领域：学习 Ollama 使用，独立完成 Deepseek 本地部署，参与模力方舟贵州首届 AI 开发者大会，全面了解国内各家 AI 模型与聊天工具。",
+    "highlightsEn": [
+      "Learned Ollama and independently deployed Deepseek locally",
+      "Attended Modifangzhou Guizhou First AI Developer Conference",
+      "Familiar with major domestic AI chat software and platforms",
+      "Gained comprehensive understanding of domestic AI models"
+    ],
+    "highlightsZh": [
+      "学习 Ollama 使用，独立完成 Deepseek 本地部署",
+      "参与模力方舟贵州首届 AI 开发者大会",
+      "熟悉国内各大 AI 聊天软件与平台",
+      "全面了解国内各家 AI 模型"
+    ],
+    "techStack": ["Ollama", "Deepseek", "Dify", "Python"]
+  },
+  {
+    "year": 2026,
+    "titleEn": "Building AI Systems",
+    "titleZh": "构建 AI 应用",
+    "roleEn": "AI Engineer",
+    "roleZh": "AI 工程师",
+    "period": "持续精进中",
+    "descEn": "Transitioning from traditional software to AI-native applications. Deep diving into LLMs, RAG, and Agents. Building practical AI tools and documenting everything.",
+    "descZh": "从传统软件开发转向 AI 原生应用，深入学习大语言模型、RAG、Agent 等技术，搭建本地知识库系统，探索 AI 辅助开发的最佳实践。",
+    "highlightsEn": [
+      "Built local knowledge base with Dify, Ollama, Qwen, RAG",
+      "Familiar with Embedding, vector retrieval, BM25, HyDE, Rerank, Query Rewrite",
+      "Practicing AI-assisted development (Vibe Coding)",
+      "Proficient with ChatGPT, Mimo Code, Gemini, Codex tools",
+      "Strong Prompt Engineering skills for rapid prototyping and PoC"
+    ],
+    "highlightsZh": [
+      "完成基于 Dify、Ollama、Qwen、RAG 的本地知识库系统搭建",
+      "熟悉 Embedding、向量检索、BM25、HyDE、Rerank、Query Rewrite",
+      "具备 AI 辅助开发（Vibe Coding）实践能力",
+      "熟练运用 ChatGPT、Mimo Code、Gemini、Codex 等 AI 工具",
+      "具备 Prompt Engineering 能力，可设计高质量 Prompt"
+    ],
+    "techStack": ["Dify", "RAG", "Ollama", "Qwen", "Python"]
+  }
+]

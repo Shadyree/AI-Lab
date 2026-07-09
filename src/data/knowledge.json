@@ -1,0 +1,206 @@
+[
+  {
+    "slug": "rag-full-guide",
+    "title": "RAG 全流程指南",
+    "category": "ai",
+    "subcategory": "rag",
+    "difficulty": 2,
+    "readTime": 20,
+    "updatedAt": "2026-07-09",
+    "summary": "从 Chunk 切分、Embedding、索引算法、召回机制到 Rerank 重排序，系统梳理 RAG 的完整技术链路。",
+    "sections": [
+      {
+        "title": "一、Chunk 切分",
+        "blocks": [
+          { "type": "paragraph", "content": "**Chunk Size** 是每个 chunk 的 token 大小，比如 chunk1 是 1-500，则每个 chunk 的大小是 500。" },
+          { "type": "paragraph", "content": "**Overlap** 是分段重复长度，作用是将前一个 chunk 被切分的句子，在下一个 chunk 中保留部分内容，从而降低语义不完整的情况。" },
+          { "type": "paragraph", "content": "**Parent/Child Chunk** 是指一个 chunk 下可以有很多子 chunk，让检索更精准。返回结果时，将 Parent Chunk 的内容返回给大模型，以保证上下文完整性。" },
+          { "type": "highlight", "content": "举例：用户提问「泄露了测试环境的密码是否会被罚款？」RAG 在子分块中找到「合同中泄露密码将罚款50万」，直接回复会被罚款50万——这个答案是不正确的。" },
+          { "type": "paragraph", "content": "如果 RAG 阅读了子分块所在的父分块内容：前文写着「本章所述'泄密行为'特指核心生产环境数据及客户隐私数据的外泄」（测试环境密码不属于核心数据）；后文写着「若因不可抗力或平台自身系统漏洞导致的偶发性泄露，且未造成实质商业损失的，免除经济赔偿责任」（豁免条件）。" },
+          { "type": "paragraph", "content": "大模型结合完整上下文后给出正确答案：「不需要罚款。虽然合同规定泄密需罚款50万，但该条款特指核心生产数据和客户隐私。用户泄露的是测试环境密码，且属于偶发行为，在未造成实质商业损失的情况下，属于免责范围。」" }
+        ]
+      },
+      {
+        "title": "二、Embedding 原理",
+        "blocks": [
+          { "type": "paragraph", "content": "**文本向量化**：使用 Embedding 模型将文本（chunk）转化为高维向量信息，也可以理解为语义向量化。比如给猫定义为 [0.1, 0.2, 0.3]。" },
+          { "type": "paragraph", "content": "**向量维度**：上面的猫定义就是一个三维向量。理论上维度越高，所能表达的信息就越丰富。现实中物体的特征非常复杂，需要高维向量才能代表。AI 模型一般通过上千个维度把人类语言中复杂的隐喻、语气、领域知识全部编码进去。" },
+          { "type": "paragraph", "content": "**相似度计算**：衡量两个向量的距离（或夹角），距离越近则语义越接近。常用方法有三个：点积、余弦相似度、欧式距离。" }
+        ]
+      },
+      {
+        "title": "三、索引算法及向量数据库",
+        "blocks": [
+          { "type": "paragraph", "content": "**HNSW**（Hierarchical Navigable Small World graphs，分层可导航小世界图）是一种近似最近邻（ANN）算法，通过构建多层图结构快速找到相似向量，而无需遍历全部数据。" },
+          { "type": "paragraph", "content": "**常用数据库**：Qdrant（轻量级，适用于 Dify，中小型企业部署）；Weaviate（向量库+AI功能）；Milvus（企业级向量库，部署复杂，功能齐全）。" }
+        ]
+      },
+      {
+        "title": "四、召回机制",
+        "blocks": [
+          { "type": "paragraph", "content": "**TopK**：在已排序的 chunk 中只取前 K 个结果。" },
+          { "type": "paragraph", "content": "**混合检索**：同时使用传统检索（关键词匹配）和向量检索，既能获取关键词相关信息，又能根据语义筛选。" },
+          { "type": "highlight", "content": "核心流程：1. 并行检索（BM25 + 向量相似度）→ 2. 分数归一化与融合（RRF 算法）→ 3. 取 Top-K 输出" },
+          { "type": "paragraph", "content": "**RRF**（Reciprocal Rank Fusion，倒数排名融合）算法只看排名不看绝对分数，因为 BM25 的分数可能是几分到几十分，而向量相似度一般是 0-1 之间。RRF 根据排名重新计算融合得分。" }
+        ]
+      },
+      {
+        "title": "五、Rerank 重排序",
+        "blocks": [
+          { "type": "paragraph", "content": "混合检索由于对速度有要求，在大量数据中筛选时可能出现排序不精准的情况。Rerank 阶段将粗排结果放入高精度深度学习模型中，进行全面且精细的打分。" },
+          { "type": "paragraph", "content": "**交叉编码器（Cross-Encoder）**：召回阶段中，用户提问和技术文档是分别被转换为向量然后计算相似度（双塔模型）；而交叉编码器将问题和文档拼接在一起再放入 Transformer/BERT 模型中计算。由于计算量大，只放在第二阶段的重排序。" }
+        ]
+      },
+      {
+        "title": "六、RAG 常见问题",
+        "blocks": [
+          { "type": "highlight", "content": "**幻觉**：即使给到足够多的参考资料，大模型依旧给出不符合事实的答案或凭空捏造。在金融、医学、客服等领域将是致命打击。" },
+          { "type": "highlight", "content": "**召回不足**：有价值的 Chunk 没有进入最终上下文。可能是 TopK 设置过小、强相关 chunk 排在第 K+1 位、或 chunk 切分不合理导致语义被截断。" },
+          { "type": "highlight", "content": "**上下文污染**：TopK 设置过大，大量无关信息被发送给大模型，导致答案偏差。" }
+        ]
+      },
+      {
+        "title": "七、BM25 原理",
+        "blocks": [
+          { "type": "paragraph", "content": "BM25 是一种基于关键词匹配的相关性排序算法，判断文档和用户查询在「字面层面」是否相关。相较 Embedding，它更擅长对关键词做匹配，特别是无语义的词句（如手机号、编号）。" },
+          { "type": "paragraph", "content": "**词频（TF）**：一个词在文档中出现的次数。BM25 不直接使用词频作为核心，而是采用递减策略：第一次 1 分，第二次 0.9 分，第三次 0.6 分……词频越高相关性越强，但增长不是线性的。" },
+          { "type": "paragraph", "content": "**逆文档频率（IDF）**：一个词在整个知识库中出现频率越高，则区分能力越弱，权重越低。反之亦然。" }
+        ]
+      },
+      {
+        "title": "八、Query Rewrite",
+        "blocks": [
+          { "type": "paragraph", "content": "日常口语化输入会加大模型理解难度，比如「苹果16」需要理解为「iPhone 16」。Query Rewrite 在用户提问进入 BM25 和 Embedding 前，使用轻量级大模型对其进行规范化、翻译、改写。" },
+          { "type": "highlight", "content": "三大策略：1. 多角度扩展（Query Expansion）：同义词、行业术语生成多个版本，并行检索后合并结果。2. 指代消解：将「它」「那个」还原为完整表述。3. 子问题拆解：将复杂提问拆解为多个单一子问题分别检索。" }
+        ]
+      },
+      {
+        "title": "九、HyDE",
+        "blocks": [
+          { "type": "paragraph", "content": "**HyDE**（Hypothetical Document Embeddings，假设性文档嵌入）解决用户提问与知识库答案不对称的问题。比如用户说「电脑不动了」（口语化），而知识库答案是专业的、严谨的。" },
+          { "type": "paragraph", "content": "核心逻辑：利用问题先用 LLM 生成一次假设性答案，再用这个答案去 RAG 中检索。因为 LLM 生成的答案更专业、篇幅更长，更容易匹配到知识库内容。" }
+        ]
+      },
+      {
+        "title": "十、多路召回",
+        "blocks": [
+          { "type": "paragraph", "content": "单独使用一种召回算法不足以召回所有相关 chunk，需要使用多种方式获取 chunk，然后合并、去重、融合。多路召回不是为了提高数量，而是为了提高召回率。" },
+          { "type": "paragraph", "content": "不同召回器的评分体系完全不同，不能直接比较。RRF 根据排名重新计算融合得分，通常使用并行方法避免时间增加。" }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "transformer-explained",
+    "title": "Transformer 核心原理",
+    "category": "ai",
+    "subcategory": "llm",
+    "difficulty": 3,
+    "readTime": 15,
+    "updatedAt": "2026-07-09",
+    "summary": "从 Attention 机制到 Encoder/Decoder 架构，深入理解 Transformer 的核心组件与工作原理。",
+    "sections": [
+      {
+        "title": "一、Attention 注意力机制",
+        "blocks": [
+          { "type": "paragraph", "content": "计算当前词对其他词的关注程度。一个句子进入 Attention 阶段，根据 Embedding 计算每个词的 Q、K、V。Q：我想要找到什么信息？K：我能够提供什么特征？V：如果你关注我，我把什么信息给你？" },
+          { "type": "highlight", "content": "Attention 不是找到最相关的词，而是根据所有词的重要程度，对所有词的信息进行加权融合，从而得到当前 Token 新的表示。" },
+          { "type": "paragraph", "content": "**Self-Attention（自注意力）**：让模型在理解一个词时，自动寻找句子中其他词和它的关联度。可以理解成模型在理解上下文，否则使用指代词（比如「它」「这样」）模型不能理解其含义。" },
+          { "type": "paragraph", "content": "**Multi-Head Attention（多头注意力）**：将注意力机制分成多批次同时进行，从多个角度分析（词义、上下文关联等），解决理解不全面的问题。" },
+          { "type": "paragraph", "content": "**Position Encoding（位置编码）**：Transformer 将一整句话塞进模型，不做特殊处理则不知道每个词的位置。位置编码将词和编码做映射，让模型知道每个词的位置。" },
+          { "type": "paragraph", "content": "**FFN（前馈神经网络）**：将每个词升维，更细致地了解语义，确保理解正确后再降维。" }
+        ]
+      },
+      {
+        "title": "二、Residual 残差连接",
+        "blocks": [
+          { "type": "paragraph", "content": "保留上一层输入的信息，并学习需要补充的东西。Residual 将当前模块的输出与输入相加，保留已有信息的同时加入新信息。" },
+          { "type": "highlight", "content": "Attention 负责信息交互，Residual 负责信息保留，FFN 负责语义加工。" }
+        ]
+      },
+      {
+        "title": "三、LayerNorm 层归一化",
+        "blocks": [
+          { "type": "paragraph", "content": "不负责理解语义，它负责让每一层输出保持稳定，从而让 Transformer 能够持续、稳定地训练。LayerNorm 调整的是数值分布，而不是语义本身。" },
+          { "type": "paragraph", "content": "将每个 Token 的表示调整到稳定的数值分布，使不同模块输出的表示保持一致的数值尺度，从而让后续模块能够稳定地继续学习。" }
+        ]
+      },
+      {
+        "title": "四、Transformer Block",
+        "blocks": [
+          { "type": "highlight", "content": "Token 交流（Attention）→ 保留已有信息（Residual）→ 稳定数值分布（LayerNorm）→ 深入加工语义（FFN），最终得到越来越符合上下文的表示。这就是一个 Transformer Block。" }
+        ]
+      },
+      {
+        "title": "五、Encoder 和 Decoder",
+        "blocks": [
+          { "type": "paragraph", "content": "**Encoder**：负责理解，使用 Embedding、Position Encoding、多层 Self-Attention。它的输出是语义理解向量，不再是词语。" },
+          { "type": "paragraph", "content": "**Decoder**：负责根据理解（向量）生成新的词语，通过「逐 token 生成」的方式不断预测下一个词。" },
+          { "type": "highlight", "content": "Encoder 把语言变成「可计算的理解」，Decoder 把理解变成「可生成的语言」。" }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "prompt-patterns",
+    "title": "Prompt Engineering 设计模式",
+    "category": "ai",
+    "subcategory": "prompt",
+    "difficulty": 1,
+    "readTime": 12,
+    "updatedAt": "2026-07-09",
+    "summary": "八大 Prompt 设计模式：从角色设定到自我优化，掌握引导大模型输出的核心方法论。",
+    "sections": [
+      {
+        "title": "一、角色类（Persona）",
+        "blocks": [
+          { "type": "paragraph", "content": "给模型设定一个身份，让模型按照这个身份的知识、语气和关注点来完成任务。设定本身不会增加大模型的知识，只会影响它的语气和关注点。" }
+        ]
+      },
+      {
+        "title": "二、少样本学习（Few-shot）",
+        "blocks": [
+          { "type": "paragraph", "content": "通过提供少量具有代表性的示例，规范化模型的输出风格。示例需要具有代表性，不能所有例子都描述同一类型。示例不需要过多，3-5 个即可。" }
+        ]
+      },
+      {
+        "title": "三、思维链（Chain of Thought）",
+        "blocks": [
+          { "type": "paragraph", "content": "CoT（Chain of Thought），不要直接编写问题+结果，通过展示思考或中间过程，提高复杂任务的正确率。" }
+        ]
+      },
+      {
+        "title": "四、推理行动（ReAct）",
+        "blocks": [
+          { "type": "paragraph", "content": "让模型在推理（Reason）和行动（Action）之间交替进行，以便借助工具完成复杂任务。" },
+          { "type": "highlight", "content": "流程：Thought → Action → Observation → Thought → Action → Observation → … → Final Answer" }
+        ]
+      },
+      {
+        "title": "五、计划与解决（Plan-and-Solve）",
+        "blocks": [
+          { "type": "paragraph", "content": "制作整体计划，再将复杂任务拆分成多个子任务，并按照计划逐一解决。" }
+        ]
+      },
+      {
+        "title": "六、反思（Reflection）",
+        "blocks": [
+          { "type": "paragraph", "content": "模型完成推理输出后，对自己的输出进行检查、评估和改进。本质是让 AI 从执行者转变为评估者，对已有结果进行评估和优化。" }
+        ]
+      },
+      {
+        "title": "七、树形思维（Tree of Thoughts）",
+        "blocks": [
+          { "type": "paragraph", "content": "CoT 等模式都在一条路上行走，如果第一步方向错误，之后会越走越远。ToT 让模型探索多个可能的推理路径，尝试、剪枝和评估后，选择最优路径继续推理。" }
+        ]
+      },
+      {
+        "title": "八、自我优化（Self-Refine）",
+        "blocks": [
+          { "type": "paragraph", "content": "与反思类似，不同的是反思只进行一次优化，而自我优化通过「生成 → 反馈 → 修改」的循环，不断迭代优化结果，直到达到预期目标。" },
+          { "type": "highlight", "content": "Prompt Pattern 的本质，不是在教 AI 如何回答，而是在设计 AI 的思考方式。 ——By GPT" }
+        ]
+      }
+    ]
+  }
+]

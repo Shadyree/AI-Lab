@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "smart-parking",
+    "title": "中铁文旅智慧停车平台",
+    "problem": "传统停车管理依赖人工，效率低、数据不互通，无法满足智慧化运营需求。",
+    "challenge": "对接第三方停车硬件供应商，实现系统上线部署与多平台数据打通。",
+    "architecture": "用户端 → 停车平台 → 供应商接口 → 硬件设备（道闸/摄像头）",
+    "techStack": ["Java", "Spring Boot", "Redis", "MySQL", "Docker"],
+    "result": "完成多个停车场项目实施上线，实现停车数据统一管理。",
+    "metrics": [
+      { "label": "项目状态", "value": "持续迭代" },
+      { "label": "角色", "value": "技术负责" },
+      { "label": "上线", "value": "多停车场" }
+    ]
+  },
+  {
+    "slug": "rainbow-platform",
+    "title": "彩虹综合平台 & Rainbow 系统",
+    "problem": "企业多系统割裂，业务流程分散，缺乏统一的数字化管理入口。",
+    "challenge": "在保障业务连续性的前提下，逐步构建综合业务平台，整合多条业务线。",
+    "architecture": "Ruoyi 框架 → Spring Boot → Element UI → MyBatis",
+    "techStack": ["Java", "Spring Boot", "Vue", "Element UI", "Ruoyi", "MyBatis"],
+    "result": "完成综合平台及 Rainbow 系统的开发与持续迭代，支撑企业数字化运营。",
+    "metrics": [
+      { "label": "项目状态", "value": "持续迭代" },
+      { "label": "角色", "value": "核心开发" },
+      { "label": "周期", "value": "2024-至今" }
+    ]
+  },
+  {
+    "slug": "activity-booking",
+    "title": "彩虹一卡通活动预约平台",
+    "problem": "基于已有商城系统，需要快速改造为支持活动预约的平台，业务流程差异大。",
+    "challenge": "独立完成预约业务全流程开发，包括 SKU、订单、分类管理等核心模块。",
+    "architecture": "Ruoyi 后台 → Spring Boot API → Redis 缓存 → MySQL → Docker 部署",
+    "techStack": ["Java", "Spring Boot", "Redis", "Docker", "MySQL", "Ruoyi"],
+    "result": "独立完成预约平台从 0 到 1 的搭建，支撑活动预约业务正常运转。",
+    "metrics": [
+      { "label": "开发模式", "value": "独立开发" },
+      { "label": "核心模块", "value": "6+" },
+      { "label": "周期", "value": "2022-2024" }
+    ]
+  },
+  {
+    "slug": "saas-platform",
+    "title": "中天智管家（物业 SaaS 平台）",
+    "problem": "物业企业管理多项目数据分散，缺乏统一的 SaaS 化管理平台。",
+    "challenge": "独立设计并开发租户迁入迁出、停车优惠券等核心业务模块。",
+    "architecture": "Vue 前端 → Spring Boot → Nacos 注册中心 → Redis → MySQL",
+    "techStack": ["Java", "Spring Boot", "Vue", "uni-app", "Redis", "MySQL", "Nacos"],
+    "result": "独立完成多个核心模块开发，实现 SaaS 平台与停车平台优惠券数据互通。",
+    "metrics": [
+      { "label": "开发模式", "value": "独立开发" },
+      { "label": "核心模块", "value": "租户+停车" },
+      { "label": "前后端", "value": "全栈" }
+    ]
+  },
+  {
+    "slug": "owner-app",
+    "title": "中天服务家 APP",
+    "problem": "业主需要便捷的物业缴费、门禁、梯控等社区服务入口。",
+    "challenge": "实现梯控模块的前后端开发，确保与硬件设备的稳定通信。",
+    "architecture": "uni-app 前端 → Spring Boot API → 硬件接口 → MySQL",
+    "techStack": ["Java", "Spring Boot", "MySQL", "Redis", "uni-app"],
+    "result": "完成梯控模块开发并上线，提升业主使用体验。",
+    "metrics": [
+      { "label": "模块", "value": "梯控" },
+      { "label": "端", "value": "前后端" },
+      { "label": "状态", "value": "已上线" }
+    ]
+  }
+]
