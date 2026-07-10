@@ -65,7 +65,7 @@ export default function KnowledgePage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t('knowledge.searchPlaceholder')}
-              className="w-full pl-11 pr-4 py-3 text-sm bg-white border border-[var(--n-200)] rounded-xl focus:outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/10 transition-all placeholder:text-[var(--n-400)]"
+              className="w-full pl-11 pr-4 py-3 text-sm bg-[var(--bg-primary)] border border-[var(--n-200)] rounded-xl focus:outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/10 transition-all placeholder:text-[var(--n-400)]"
             />
           </div>
         </motion.div>

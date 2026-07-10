@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-const nameChars = "Hi, I'm Ree".split('');
+const nameChars = "Hi, I'm XianRui".split('');
 
 export default function Hero() {
   const { t } = useLanguage();
@@ -207,6 +207,7 @@ function AINetwork() {
           y2={nodes[to].y}
           stroke="var(--n-200)"
           strokeWidth="1"
+          strokeLinecap="round"
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
           transition={{ duration: 1, delay: 0.5 + i * 0.1 }}

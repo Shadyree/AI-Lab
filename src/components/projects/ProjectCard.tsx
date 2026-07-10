@@ -50,7 +50,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.6 }}
       id={project.slug}
-      className="border border-[var(--n-200)] rounded-[2px] p-8 md:p-12"
+      className="border border-[var(--n-200)] rounded-[var(--radius-md)] p-8 md:p-12"
     >
       <div className="flex items-start justify-between mb-8">
         <h2 className="text-2xl md:text-3xl font-bold text-[var(--n-900)]">
@@ -83,7 +83,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             <h3 className="text-sm font-semibold text-[var(--n-400)] uppercase tracking-wider mb-3">
               {t('projects.architecture')}
             </h3>
-            <p className="text-[var(--n-600)] font-mono text-sm bg-[var(--n-50)] p-4 rounded-[2px]">
+            <p className="text-[var(--n-600)] font-mono text-sm bg-[var(--n-50)] p-4 rounded-[var(--radius-sm)]">
               {project.architecture}
             </p>
           </div>

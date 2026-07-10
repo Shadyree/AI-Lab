@@ -15,8 +15,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           'focus:outline-none focus:ring-2 focus:ring-offset-2',
           'disabled:opacity-50 disabled:cursor-not-allowed',
           {
-            'bg-[var(--n-900)] text-white hover:bg-[var(--n-800)] px-6 py-3 rounded-xl': variant === 'primary',
-            'border border-[var(--n-300)] text-[var(--n-700)] hover:bg-[var(--n-50)] hover:border-[var(--n-400)] px-6 py-3 rounded-xl': variant === 'ghost',
+            'bg-[var(--n-900)] text-[var(--bg-primary)] hover:bg-[var(--n-800)] px-6 py-3 rounded-[var(--radius-lg)]': variant === 'primary',
+            'border border-[var(--n-300)] text-[var(--n-700)] hover:bg-[var(--n-50)] hover:border-[var(--n-400)] px-6 py-3 rounded-[var(--radius-lg)]': variant === 'ghost',
             'text-[var(--n-700)] underline underline-offset-[3px] hover:text-[var(--accent)] px-0 py-0': variant === 'link',
           },
           className

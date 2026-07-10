@@ -45,7 +45,7 @@ export default function Timeline() {
         >
           {/* Dot on the line */}
           <div className="absolute -left-10 top-[18px] z-10">
-            <div className="w-[15px] h-[15px] rounded-full bg-white border-2 border-[var(--n-300)]" />
+            <div className="w-[15px] h-[15px] rounded-full bg-[var(--bg-primary)] border-2 border-[var(--n-300)]" />
           </div>
 
           {/* Year + Title */}

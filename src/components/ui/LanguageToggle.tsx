@@ -9,7 +9,7 @@ export default function LanguageToggle() {
   return (
     <button
       onClick={toggleLanguage}
-      className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-[var(--n-600)] hover:text-[var(--n-900)] hover:bg-[var(--n-50)] rounded-[4px] transition-colors duration-200"
+      className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-[var(--n-600)] hover:text-[var(--n-900)] hover:bg-[var(--n-50)] rounded-[var(--radius-sm)] transition-colors duration-200"
       aria-label={language === 'en' ? '切换到中文' : 'Switch to English'}
     >
       <Globe size={16} />

@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageToggle from '@/components/ui/LanguageToggle';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 
 const navItems = [
   { href: '/', key: 'nav.home' },
@@ -20,7 +21,7 @@ export default function Header() {
 
   return (
     <header className="header-glass fixed top-0 left-0 right-0 z-50">
-      <div className="max-w-[1400px] mx-auto px-6 h-16 grid grid-cols-[1fr_auto_1fr] items-center">
+      <div className="max-w-[1200px] mx-auto px-6 h-16 grid grid-cols-[1fr_auto_1fr] items-center">
         <Link href="/" className="text-lg font-semibold text-[var(--n-900)] justify-self-start">
           DevForge
         </Link>
@@ -46,7 +47,8 @@ export default function Header() {
             );
           })}
         </nav>
-        <div className="justify-self-end">
+        <div className="justify-self-end flex items-center gap-1">
+          <ThemeToggle />
           <LanguageToggle />
         </div>
       </div>

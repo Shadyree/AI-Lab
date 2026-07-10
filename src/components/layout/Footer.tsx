@@ -6,7 +6,7 @@ export default function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="border-t border-[var(--n-200)] bg-white">
+    <footer className="border-t border-[var(--n-200)] bg-[var(--bg-primary)]">
       <div className="max-w-[1200px] mx-auto px-6 py-8">
         <div className="flex items-center justify-between">
           <p className="text-sm text-[var(--n-500)]">

@@ -59,7 +59,7 @@ export default function JourneyPreview() {
             >
               {/* Dot on the line */}
               <div className="absolute -left-8 top-[22px] z-10">
-                <div className="w-[11px] h-[11px] rounded-full bg-white border-2 border-[var(--n-300)] journey-dot" />
+                <div className="w-[11px] h-[11px] rounded-full bg-[var(--bg-primary)] border-2 border-[var(--n-300)] journey-dot" />
               </div>
 
               {/* Year + Title inline */}
@@ -74,7 +74,7 @@ export default function JourneyPreview() {
 
               {/* Hover detail card */}
               <div className="journey-card-wrapper">
-                <div className="journey-card bg-white border border-[var(--n-200)] rounded-2xl p-8 shadow-xl shadow-black/[0.06]">
+                <div className="journey-card bg-[var(--bg-primary)] border border-[var(--n-200)] rounded-2xl p-8 shadow-xl shadow-black/[0.06]">
                   <div className="flex items-center gap-3 mb-4">
                     <span className="text-2xl font-bold text-[var(--n-900)]">
                       {phase.year}
