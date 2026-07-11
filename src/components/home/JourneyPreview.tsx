@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Tag, { type TagColor } from '@/components/ui/Tag';
@@ -29,9 +30,97 @@ const techColors: Record<string, TagColor> = {
 export default function JourneyPreview() {
   const { t, language } = useLanguage();
   const isZh = language === 'zh';
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [cardStyle, setCardStyle] = useState<React.CSSProperties>({});
+  const [cardActive, setCardActive] = useState(false);
+  const [cardLeft, setCardLeft] = useState(0);
+  const [cardTranslateX, setCardTranslateX] = useState(40);
+  const sectionRef = useRef<HTMLElement>(null);
+  const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
+  const leaveTimerRef = useRef<ReturnType<typeof setTimeout>>(null);
+
+  const hoveredPhase = hoveredIndex !== null ? journeyData[hoveredIndex] : null;
+
+  // Measure max title right edge once for card left position
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const sectionRect = section.getBoundingClientRect();
+    const sectionPaddingLeft = parseFloat(getComputedStyle(section).paddingLeft);
+
+    let maxRight = 0;
+    for (const titleEl of titleRefs.current) {
+      if (!titleEl) continue;
+      const rect = titleEl.getBoundingClientRect();
+      const right = rect.right - sectionRect.left - sectionPaddingLeft;
+      if (right > maxRight) maxRight = right;
+    }
+    setCardLeft(maxRight + 20);
+  }, []);
+
+  // Measure card position on hover, with animation restart
+  useEffect(() => {
+    if (hoveredIndex === null || !sectionRef.current) return;
+
+    const section = sectionRef.current;
+    const sectionRect = section.getBoundingClientRect();
+    const rowEl = rowRefs.current[hoveredIndex];
+
+    // Find the third knowledge card
+    const knowledgeCards = document.querySelectorAll('[data-knowledge-card]');
+    const thirdCard = knowledgeCards[2] as HTMLElement | undefined;
+
+    if (!rowEl || !thirdCard) return;
+
+    const rowRect = rowEl.getBoundingClientRect();
+    const cardRect = thirdCard.getBoundingClientRect();
+
+    const sectionPaddingLeft = parseFloat(getComputedStyle(section).paddingLeft);
+
+    setCardStyle({
+      left: cardLeft,
+      right: sectionRect.right - cardRect.right - sectionPaddingLeft,
+      top: rowRect.top - sectionRect.top,
+    });
+
+    // Force slide-in: start offset, paint, then animate to position
+    setCardActive(false);
+    setCardTranslateX(40);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setCardActive(true);
+        setCardTranslateX(0);
+      });
+    });
+  }, [hoveredIndex, cardLeft]);
+
+  const handleMouseEnter = useCallback((index: number) => {
+    if (leaveTimerRef.current) {
+      clearTimeout(leaveTimerRef.current);
+      leaveTimerRef.current = null;
+    }
+    setHoveredIndex(index);
+    setCardActive(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setCardActive(false);
+    leaveTimerRef.current = setTimeout(() => {
+      setHoveredIndex(null);
+    }, 450);
+  }, []);
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+    };
+  }, []);
 
   return (
-    <section className="py-24 bg-[var(--n-50)]">
+    <section ref={sectionRef} className="relative py-24 bg-[var(--n-50)]">
       <div className="max-w-[1200px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -55,11 +144,20 @@ export default function JourneyPreview() {
           {journeyData.map((phase, i) => (
             <div
               key={phase.year}
-              className="relative py-4 group"
+              ref={(el) => { rowRefs.current[i] = el; }}
+              className="relative py-4"
+              onMouseEnter={() => handleMouseEnter(i)}
+              onMouseLeave={handleMouseLeave}
             >
               {/* Dot on the line */}
               <div className="absolute -left-8 top-[22px] z-10">
-                <div className="w-[11px] h-[11px] rounded-full bg-[var(--bg-primary)] border-2 border-[var(--n-300)] journey-dot" />
+                <div
+                  className={`w-[11px] h-[11px] rounded-full bg-[var(--bg-primary)] border-2 transition-colors duration-200 ${
+                    hoveredIndex === i
+                      ? 'border-[var(--accent)] bg-[var(--accent-bg)]'
+                      : 'border-[var(--n-300)]'
+                  }`}
+                />
               </div>
 
               {/* Year + Title inline */}
@@ -67,45 +165,14 @@ export default function JourneyPreview() {
                 <span className="text-sm font-semibold text-[var(--n-400)] tabular-nums">
                   {phase.year}
                 </span>
-                <h3 className="text-base font-medium text-[var(--n-700)] cursor-pointer journey-title">
+                <h3
+                  ref={(el) => { titleRefs.current[i] = el; }}
+                  className={`text-base font-medium cursor-pointer transition-colors duration-200 ${
+                    hoveredIndex === i ? 'text-[var(--accent)]' : 'text-[var(--n-700)]'
+                  }`}
+                >
                   {isZh ? phase.titleZh : phase.titleEn}
                 </h3>
-              </div>
-
-              {/* Hover detail card */}
-              <div className="journey-card-wrapper">
-                <div className="journey-card bg-[var(--bg-primary)] border border-[var(--n-200)] rounded-2xl p-8 shadow-xl shadow-black/[0.06]">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="text-2xl font-bold text-[var(--n-900)]">
-                      {phase.year}
-                    </span>
-                    <span className="text-sm font-semibold text-[var(--accent)]">
-                      {isZh ? phase.roleZh : phase.roleEn}
-                    </span>
-                    <span className="text-xs text-[var(--n-400)] ml-auto">{phase.period}</span>
-                  </div>
-                  <h4 className="text-lg font-semibold text-[var(--n-800)] mb-3">
-                    {isZh ? phase.titleZh : phase.titleEn}
-                  </h4>
-                  <p className="text-sm text-[var(--n-600)] leading-relaxed mb-5">
-                    {isZh ? phase.descZh : phase.descEn}
-                  </p>
-                  <ul className="space-y-2 mb-5">
-                    {(isZh ? phase.highlightsZh : phase.highlightsEn).map((h, j) => (
-                      <li key={j} className="flex items-start gap-2.5 text-sm text-[var(--n-600)] leading-relaxed">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] mt-2 flex-shrink-0" />
-                        {h}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="flex flex-wrap gap-2">
-                    {phase.techStack.map((tech) => (
-                      <Tag key={tech} color={techColors[tech] || 'default'}>
-                        {tech}
-                      </Tag>
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
           ))}
@@ -146,6 +213,59 @@ export default function JourneyPreview() {
             {t('journey.preview.viewAll')}
           </Link>
         </motion.div>
+      </div>
+
+      {/* Hover detail card – always in DOM, positioned relative to section */}
+      <div
+        key={hoveredIndex ?? 'none'}
+        className={`journey-card-wrapper ${cardActive ? 'active' : ''}`}
+        style={{
+          ...cardStyle,
+          transform: `translateX(${cardTranslateX}px)`,
+          transition: 'opacity 950ms cubic-bezier(0.16, 1, 0.3, 1), transform 950ms cubic-bezier(0.16, 1, 0.3, 1)',
+        }}
+        onMouseEnter={() => {
+          if (leaveTimerRef.current) {
+            clearTimeout(leaveTimerRef.current);
+            leaveTimerRef.current = null;
+          }
+        }}
+        onMouseLeave={handleMouseLeave}
+      >
+        {hoveredPhase && (
+          <div className="journey-card bg-[var(--bg-primary)] border border-[var(--n-200)] rounded-2xl p-8 shadow-xl shadow-black/[0.06]">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-2xl font-bold text-[var(--n-900)]">
+                {hoveredPhase.year}
+              </span>
+              <span className="text-sm font-semibold text-[var(--accent)]">
+                {isZh ? hoveredPhase.roleZh : hoveredPhase.roleEn}
+              </span>
+              <span className="text-xs text-[var(--n-400)] ml-auto">{hoveredPhase.period}</span>
+            </div>
+            <h4 className="text-lg font-semibold text-[var(--n-800)] mb-3">
+              {isZh ? hoveredPhase.titleZh : hoveredPhase.titleEn}
+            </h4>
+            <p className="text-sm text-[var(--n-600)] leading-relaxed mb-5">
+              {isZh ? hoveredPhase.descZh : hoveredPhase.descEn}
+            </p>
+            <ul className="space-y-2 mb-5">
+              {(isZh ? hoveredPhase.highlightsZh : hoveredPhase.highlightsEn).map((h, j) => (
+                <li key={j} className="flex items-start gap-2.5 text-sm text-[var(--n-600)] leading-relaxed">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] mt-2 flex-shrink-0" />
+                  {h}
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-wrap gap-2">
+              {hoveredPhase.techStack.map((tech) => (
+                <Tag key={tech} color={techColors[tech] || 'default'}>
+                  {tech}
+                </Tag>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

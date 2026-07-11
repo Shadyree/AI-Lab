@@ -44,7 +44,7 @@ export default function FeaturedKnowledge() {
               transition={{ duration: 0.6, delay: i * 0.1 }}
             >
               <Link href={`/knowledge/${item.slug}`}>
-                <Card className="h-full">
+                <Card className="h-full" data-knowledge-card>
                   <div className="flex flex-col h-full">
                     <div className="flex items-center gap-2 mb-4">
                       <Tag color={categoryColors[item.category] || 'default'}>{t(`category.${item.category}`)}</Tag>
