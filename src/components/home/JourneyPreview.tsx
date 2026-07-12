@@ -146,11 +146,13 @@ export default function JourneyPreview() {
               key={phase.year}
               ref={(el) => { rowRefs.current[i] = el; }}
               className="relative py-4"
-              onMouseEnter={() => handleMouseEnter(i)}
-              onMouseLeave={handleMouseLeave}
             >
               {/* Dot on the line */}
-              <div className="absolute -left-8 top-[22px] z-10">
+              <div
+                className="absolute -left-8 top-[22px] z-10 cursor-pointer"
+                onMouseEnter={() => handleMouseEnter(i)}
+                onMouseLeave={handleMouseLeave}
+              >
                 <div
                   className={`w-[11px] h-[11px] rounded-full bg-[var(--bg-primary)] border-2 transition-colors duration-200 ${
                     hoveredIndex === i
@@ -170,6 +172,8 @@ export default function JourneyPreview() {
                   className={`text-base font-medium cursor-pointer transition-colors duration-200 ${
                     hoveredIndex === i ? 'text-[var(--accent)]' : 'text-[var(--n-700)]'
                   }`}
+                  onMouseEnter={() => handleMouseEnter(i)}
+                  onMouseLeave={handleMouseLeave}
                 >
                   {isZh ? phase.titleZh : phase.titleEn}
                 </h3>
