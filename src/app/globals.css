@@ -34,6 +34,22 @@
   --success: #22C55E;
   --warning: #F59E0B;
   --error: #EF4444;
+
+  /* Tag colors */
+  --tag-purple-bg: #f0ecf9;
+  --tag-purple-text: #7c6cb0;
+  --tag-blue-bg: #eaf0f9;
+  --tag-blue-text: #6b83a8;
+  --tag-green-bg: #e8f4ee;
+  --tag-green-text: #5e8a6f;
+  --tag-amber-bg: #f8f1e4;
+  --tag-amber-text: #9a8462;
+  --tag-pink-bg: #f8eef2;
+  --tag-pink-text: #a87489;
+  --tag-teal-bg: #e6f3f0;
+  --tag-teal-text: #5e8a7f;
+  --tag-orange-bg: #f8efe6;
+  --tag-orange-text: #a88462;
 }
 
 @theme {
@@ -135,6 +151,22 @@ body {
   --success: #4ADE80;
   --warning: #FBBF24;
   --error: #F87171;
+
+  /* Tag colors – darker backgrounds for dark mode */
+  --tag-purple-bg: rgba(139, 125, 232, 0.15);
+  --tag-purple-text: #B8AAEE;
+  --tag-blue-bg: rgba(107, 131, 168, 0.15);
+  --tag-blue-text: #93B0D0;
+  --tag-green-bg: rgba(94, 138, 111, 0.15);
+  --tag-green-text: #8FBF9F;
+  --tag-amber-bg: rgba(154, 132, 98, 0.15);
+  --tag-amber-text: #C4AA7A;
+  --tag-pink-bg: rgba(168, 116, 137, 0.15);
+  --tag-pink-text: #D4A0B8;
+  --tag-teal-bg: rgba(94, 138, 127, 0.15);
+  --tag-teal-text: #8FBFAD;
+  --tag-orange-bg: rgba(168, 132, 98, 0.15);
+  --tag-orange-text: #D4B08A;
 }
 
 [data-theme="dark"] .header-glass {

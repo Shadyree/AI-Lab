@@ -76,16 +76,16 @@ export default function KnowledgeDetailPage({ params }: PageProps) {
               </h1>
 
               <div className="prose prose-lg max-w-none">
-                <p className="text-xl text-[var(--n-600)] leading-relaxed mb-12">
+                <p className="text-xl text-[var(--n-600)] leading-relaxed mb-16">
                   {article.summary}
                 </p>
 
                 {sections.map((section: any, i: number) => (
-                  <section key={i} className="mb-12" id={`section-${i}`}>
-                    <h2 className="text-2xl font-semibold text-[var(--n-900)] mb-5">
+                  <section key={i} className="mb-16" id={`section-${i}`}>
+                    <h2 className="text-2xl font-bold text-[var(--n-900)] mb-6 pb-3 border-b border-[var(--n-200)]">
                       {section.title}
                     </h2>
-                    <div className="space-y-4">
+                    <div className="space-y-5 bg-[var(--n-50)]/50 rounded-xl p-6">
                       {section.blocks.map((block: any, j: number) => {
                         if (block.type === 'paragraph') {
                           return (
@@ -145,16 +145,16 @@ export default function KnowledgeDetailPage({ params }: PageProps) {
 
             <aside className="w-56 flex-shrink-0">
               <div className="sticky top-24 space-y-8">
-                <div>
+                <div className="bg-[var(--n-50)] rounded-xl p-4">
                   <h3 className="text-xs font-semibold text-[var(--n-400)] uppercase tracking-wider mb-3">
                     {t('knowledge.contents')}
                   </h3>
-                  <ul className="space-y-2 text-sm text-[var(--n-600)]">
+                  <ul className="space-y-2.5 text-sm text-[var(--n-600)]">
                     {sections.map((section: any, i: number) => (
                       <li key={i}>
                         <a
                           href={`#section-${i}`}
-                          className="hover:text-[var(--accent)] transition-colors"
+                          className="block py-1 hover:text-[var(--accent)] transition-colors leading-snug"
                         >
                           {section.title}
                         </a>

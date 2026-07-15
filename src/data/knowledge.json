@@ -91,52 +91,104 @@
     ]
   },
   {
-    "slug": "transformer-explained",
-    "title": "Transformer 核心原理",
+    "slug": "llm-core-principles",
+    "title": "LLM 核心原理",
     "category": "ai",
     "subcategory": "llm",
     "difficulty": 3,
-    "readTime": 15,
-    "updatedAt": "2026-07-09",
-    "summary": "从 Attention 机制到 Encoder/Decoder 架构，深入理解 Transformer 的核心组件与工作原理。",
+    "readTime": 30,
+    "updatedAt": "2026-07-15",
+    "summary": "从 Attention 机制到 Transformer 架构，再到 LLM 训练流程与推理优化，系统理解大语言模型的核心原理。",
     "sections": [
       {
-        "title": "一、Attention 注意力机制",
+        "title": "一、Attention（注意力机制）",
         "blocks": [
-          { "type": "paragraph", "content": "计算当前词对其他词的关注程度。一个句子进入 Attention 阶段，根据 Embedding 计算每个词的 Q、K、V。Q：我想要找到什么信息？K：我能够提供什么特征？V：如果你关注我，我把什么信息给你？" },
+          { "type": "paragraph", "content": "计算当前词对其他词的关注程度。一个句子进入 Attention 阶段，根据 Embedding 计算每个词的 Q、K、V。这三个分别是 Q：我想要找到什么信息？K：我能够提供什么特征？V：如果你关注我，我把什么信息给你？" },
           { "type": "highlight", "content": "Attention 不是找到最相关的词，而是根据所有词的重要程度，对所有词的信息进行加权融合，从而得到当前 Token 新的表示。" },
-          { "type": "paragraph", "content": "**Self-Attention（自注意力）**：让模型在理解一个词时，自动寻找句子中其他词和它的关联度。可以理解成模型在理解上下文，否则使用指代词（比如「它」「这样」）模型不能理解其含义。" },
-          { "type": "paragraph", "content": "**Multi-Head Attention（多头注意力）**：将注意力机制分成多批次同时进行，从多个角度分析（词义、上下文关联等），解决理解不全面的问题。" },
-          { "type": "paragraph", "content": "**Position Encoding（位置编码）**：Transformer 将一整句话塞进模型，不做特殊处理则不知道每个词的位置。位置编码将词和编码做映射，让模型知道每个词的位置。" },
-          { "type": "paragraph", "content": "**FFN（前馈神经网络）**：将每个词升维，更细致地了解语义，确保理解正确后再降维。" }
+          { "type": "paragraph", "content": "**Self-Attention（自注意力）**：让模型在理解一个词时，会自动去寻找句子中其他词和它的关联度。可以理解成模型在理解上下文，不然使用指代词（比如它、这样）的词模型不能理解其含义。" },
+          { "type": "paragraph", "content": "**Multi-Head Attention（多头注意力）**：将注意力机制分成多批次同时进行。对一个词理解是，从对各角度去分析（比如词义，上下文关联等），解决了理解不全面的问题。" },
+          { "type": "paragraph", "content": "**Position Encoding（位置编码）**：Transformer 是将一整句话塞进模型，所以不做特殊处理则不知道每个词的位置，Position Encoding 将词和编码做了一个映射，也就是位置编码，这样就能够知道每个词是在第几个位置了。" },
+          { "type": "paragraph", "content": "**FFN（前馈神经网络）**：将每个词升维，更加细致的了解这个词的语义。确保理解正确后再进行降维。" }
         ]
       },
       {
-        "title": "二、Residual 残差连接",
+        "title": "二、Residual（残差连接）",
         "blocks": [
-          { "type": "paragraph", "content": "保留上一层输入的信息，并学习需要补充的东西。Residual 将当前模块的输出与输入相加，保留已有信息的同时加入新信息。" },
+          { "type": "paragraph", "content": "保留上一层输入的信息，并学习需要补充的东西。Residual 的重要作用体现在将当前模块的输入 token 的语义融合自己的原始语义，形成一个新的、更加丰富的表示。" },
+          { "type": "paragraph", "content": "准确的表达：Residual 将当前模块的输出与该模块的输入相加，从而保留已有的信息，同时加入新的信息。" },
           { "type": "highlight", "content": "Attention 负责信息交互，Residual 负责信息保留，FFN 负责语义加工。" }
         ]
       },
       {
-        "title": "三、LayerNorm 层归一化",
+        "title": "三、LayerNorm（层归一化）",
         "blocks": [
           { "type": "paragraph", "content": "不负责理解语义，它负责让每一层输出保持稳定，从而让 Transformer 能够持续、稳定地训练。LayerNorm 调整的是数值分布，而不是语义本身。" },
-          { "type": "paragraph", "content": "将每个 Token 的表示调整到稳定的数值分布，使不同模块输出的表示保持一致的数值尺度，从而让后续模块能够稳定地继续学习。" }
+          { "type": "paragraph", "content": "准确的表达：LayerNorm（层归一化）的作用是将每个 Token 的表示调整到稳定的数值分布，使不同模块输出的表示保持一致的数值尺度，从而让后续模块能够稳定地继续学习，而不会改变 Token 本身表达的语义。" }
         ]
       },
       {
-        "title": "四、Transformer Block",
+        "title": "四、Transformer Block（最重要）",
         "blocks": [
-          { "type": "highlight", "content": "Token 交流（Attention）→ 保留已有信息（Residual）→ 稳定数值分布（LayerNorm）→ 深入加工语义（FFN），最终得到越来越符合上下文的表示。这就是一个 Transformer Block。" }
+          { "type": "highlight", "content": "Token 交流（Attention）、保留已有信息（Residual）、稳定数值分布（LayerNorm）、深入加工语义（FFN），最终得到越来越符合上下文的表示。这一个过程，我们就可以称之为一个 Transformer Block。" }
         ]
       },
       {
         "title": "五、Encoder 和 Decoder",
         "blocks": [
-          { "type": "paragraph", "content": "**Encoder**：负责理解，使用 Embedding、Position Encoding、多层 Self-Attention。它的输出是语义理解向量，不再是词语。" },
+          { "type": "paragraph", "content": "**Encoder**：负责理解，它使用了 Embedding、Position Encoding、多层 Self-Attention。它的输出是语义理解向量，不再是词语。" },
           { "type": "paragraph", "content": "**Decoder**：负责根据理解（向量）生成新的词语，通过「逐 token 生成」的方式不断预测下一个词。" },
-          { "type": "highlight", "content": "Encoder 把语言变成「可计算的理解」，Decoder 把理解变成「可生成的语言」。" }
+          { "type": "paragraph", "content": "**Encoder：** 把输入语言编码为包含上下文信息的语义表示（Context Representation）；**Decoder：** 基于这些语义表示和已生成的 Token，自回归地预测下一个 Token；最后由 Tokenizer 将 Token ID 解码为自然语言文本。" }
+        ]
+      },
+      {
+        "title": "六、GPT到底干了什么？",
+        "blocks": [
+          { "type": "highlight", "content": "根据已有的上下文，不断循环预测下一个最可能出现的 token，并把最有可能的 token 加入上下文来去预测下一个 token，直到生成最终的回答。" }
+        ]
+      },
+      {
+        "title": "七、LLM是如何训练",
+        "blocks": [
+          { "type": "paragraph", "content": "**训练在干什么？** 大模型是根据海量的文本不断预测、纠错和调整参数，把语言、事实和模式中的统计规律编码到参数中。这样，当它遇到新的问题的时候能够根据已有的规律进行作答，而不是传统的在数据库中查找答案。" },
+          { "type": "paragraph", "content": "**训练数据从哪里来？** LLM 的训练数据并不是来自某一个地方，而是综合了公开互联网内容、公开出版物、授权数据、人工标注数据以及越来越多的高质量 AI 合成数据。经过严格的清洗、筛选和处理后，这些文本才会成为模型的训练语料，帮助模型学习语言规律、知识模式和推理能力。" },
+          { "type": "paragraph", "content": "**7.1 公开的互联网文章**：互联网公开的文本，例如技术博客（CSDN）、新闻网站、开源文档、开发者论坛、维基百科、StackOverflow 等。" },
+          { "type": "paragraph", "content": "**7.2 公开的出版物**：学术论文、教育资料、政府公开的文件、法律法规等。" },
+          { "type": "paragraph", "content": "**7.3 授权数据**：由大模型企业与其它公司合作获得公司授权从而获得公司内部数据。" },
+          { "type": "paragraph", "content": "**7.4 人工标注的数据**" },
+          { "type": "paragraph", "content": "**7.5 AI 生成的数据**：利用已有的大模型自动生成高质量问答、代码、数学题、推理样本等，再经过筛选后继续用于训练，可以有效提升模型在特定能力上的表现。" },
+          { "type": "highlight", "content": "**训练的本质**：不断调整模型参数，使得模型对下一个 token 的预测越来越准确。训练的本质不是把知识「塞进」模型，也不是让模型背答案，而是通过「预测 → 计算误差 → 调整参数 → 再预测」的循环，让数十亿甚至数千亿个参数逐渐形成对语言、知识和规律的内部表示。最终，模型能够根据上下文生成最合理的下一个 Token，这种能力进一步表现为我们看到的写作、编程、翻译和推理等能力。模型最终学到的不是具体答案，而是语言和世界中的统计规律，因此它能够泛化到训练数据中没有出现过的新问题。" },
+          { "type": "paragraph", "content": "**训练过程：** LLM 的训练分为预训练和后训练两个阶段。" },
+          { "type": "paragraph", "content": "**预训练**的核心是自监督学习，基于海量的文本数据，采用 Next Token Prediction 方法，即给定前文，预测下一个 token。通过 Cross-Entropy Loss 计算误差，再反向传播更新模型参数（可能是数十亿至万亿参数）。这个过程是让模型把语言的统计规律、世界知识、逻辑模式都压缩进参数里。" },
+          { "type": "highlight", "content": "Loss（损失函数）用于衡量模型预测结果与真实答案之间的差距，Loss 越小说明模型预测越准确。" },
+          { "type": "paragraph", "content": "**后训练**指使用了 SFT（监督微调），用高质量人工标注的指令-回答数据，让模型学会遵循指令。同时基于**人类反馈的对齐（RLHF）**，使用强化学习算法（例如 PPO）让模型的输出更符合人类偏好。" },
+          { "type": "highlight", "content": "RLHF（Reinforcement Learning from Human Feedback）：人类反馈的对齐。" }
+        ]
+      },
+      {
+        "title": "八、推理流程和优化",
+        "blocks": [
+          { "type": "paragraph", "content": "**8.1 推理流程**：推理（Inference）是利用训练阶段所学到的知识，根据用户输入进行计算，然后生成下一个 Token。流程是用户输入，然后使用 Tokenization 进行分词，然后计算每个词的向量，给每个词进行位置编码，Transformer 得到下一个 token 的概率，Sampling，输出第一个 token，然后使用 Decode 将 token 还原为语言。持续这个过程，直到结束。" },
+          { "type": "paragraph", "content": "**8.2 Tokenization**：模型不能够直接理解文字，而是调用 Tokenizer 将一个句子进行分词，并给每个字一个 Token ID。" },
+          { "type": "paragraph", "content": "**8.3 Embedding**：将 token 语义向量化，将每个 Token ID 都映射为高维向量，最终将所有语句进行语义向量化。" },
+          { "type": "paragraph", "content": "**8.4 Prefill**：Transformer 开始计算，首先是将用户的 Prompt 完整阅读，并计算一遍（Attention），这一步即是完成了 Prompt 上下文的理解（将所有 token 的语义向量都计算出来），同时会把后续生成所需要的 KV Cache 保存好。Transformer 的输出不是一句话，而是一个 Token 概率表上的得分（Logits），然后使用 Sampling 将得分转换为概率，也就是说，Transformer 的回答不是一整句话，而是下一个 Token 最有可能是什么。" },
+          { "type": "paragraph", "content": "**8.5 Decode**：Decode 是推理阶段的逐 Token 生成过程，也是 LLM 自回归（Autoregressive）生成的核心阶段。模型会将上下文（已生成的 Token 与原始 Prompt）一起作为新的输入，在 Prefill 阶段生成的 KV Cache 的帮助下逐轮预测下一个 Token，并重复这一过程，直到生成结束标记（EOS）。需要注意，这里的 Decode 指的是推理阶段（Generation Stage），而不是 Tokenizer 的 decode() 操作。真正将 Token ID 转换为自然语言文本的是 Tokenizer 的 decode() 操作。" },
+          { "type": "paragraph", "content": "**8.6 Sampling**：根据 Transformer 输出的 Logits（通常会先转换为概率分布，并结合不同策略），选择最终输出 Token 的过程。" },
+          { "type": "paragraph", "content": "**Temperature**：调整概率分布的陡峭程度，若 Temperature 越低，概率分布越陡峭，则 Token 概率大的被选中的概率越大；若 Temperature 越高，则 Token 概率将会更平均，Token 概率低的被选中的几率也会增加。" },
+          { "type": "paragraph", "content": "**Top-K**：名称与 RAG 中的 Top-K 相同，但作用对象不同。RAG 的 Top-K 是选择相关文档，而 Sampling 的 Top-K 是选择候选 Token。" },
+          { "type": "paragraph", "content": "**Top-P**：固定累计概率，按照 Token 概率从高到低排序，保留累计概率达到 P 的最小候选集合，再从该集合中进行采样。" },
+          { "type": "paragraph", "content": "**Greedy Search**：不属于随机采样，而是始终选择概率最高的 Token，因此生成结果最稳定，但容易缺乏多样性。" },
+          { "type": "highlight", "content": "Sampling 并不会改变 Transformer 对下一个 Token 的预测结果，而是在预测结果的基础上，按照不同策略选择最终输出的 Token。不同的 Sampling 策略会影响模型生成内容的随机性、多样性和稳定性。" },
+          { "type": "paragraph", "content": "**8.7 推理优化**" },
+          { "type": "paragraph", "content": "**8.7.1 KV Cache**：如果没有 KV Cache，每生成一个 Token，都需要重新计算上下文，导致大量重复的计算。根据之前对于 Attention 机制的了解，只有新的 Token 需要有 Query，且 Query 只作用于新的 Token，而历史 Token 的 Key 和 Value 会被后续所有 Token 反复使用，所以需要将他们缓存。" },
+          { "type": "paragraph", "content": "**8.7.2 Prefix Cache**：将多个请求中相同前缀（Prefix）对应的 KV Cache 保存下来，当新的请求拥有相同前缀时，直接复用这部分 KV Cache，而不需再次执行 Prefill，从而进一步降低推理延迟，提高 GPU 利用率。" },
+          { "type": "highlight", "content": "举例：假设用户 A 的提问是：你是一个 Python 老师，请解释一下 for 循环。用户 B 的提问是：你是一个 Python 老师，请解释一下什么是构造器。那在这个例子中，你是一个 Python 老师这句话只需要一次计算存入 KV Cache，用户 B 提问时直接调用即可，不需要去做重复的计算。Prefix Cache 与 KV Cache 的区别在于一个是在同一个请求中反复使用，一个是在不同请求中反复使用。局限性是必须一模一样的文案才会触发。" },
+          { "type": "paragraph", "content": "**8.7.3 Continuous Batching**：一种动态批处理技术。假设一个 GPU 一次可以处理四个请求，但是第二个请求耗时 10min，其余的耗时 3min，那这就会导致其他三个请求结束了，但是第二个请求还在执行。使用 Continuous Batching，GPU 不需要等待整个 Batch 结束，而是只要有请求结束了，就立刻加入新的请求进入 Batch 开始计算，从而保持 GPU 的高利用率。KV Cache 与 Continuous Batching 高度相关联，因为每个请求都维护了独立的 KV Cache。" },
+          { "type": "paragraph", "content": "**8.7.4 Flash Attention**：针对 Attention 计算过程的优化算法，它的主要作用是通过减少 GPU 显存与计算单元之间的数据搬运，提高计算速度并且降低显存占用。它通过分块（Tiling）计算，并充分利用 GPU 的高速共享内存（Shared Memory），减少了显存（HBM）的数据读写次数，在不改变模型输出结果的前提下，提高了 Attention 的计算速度，并降低了显存占用，尤其适用于长上下文场景。" },
+          { "type": "paragraph", "content": "**8.7.5 Paged Attention**：传统 KV Cache 连续分配，导致大量显存空间被浪费。Paged Attention 借鉴了操作系统分页（Paging）的思想，将 KV Cache 拆分为多个固定大小的数据块（Page）进行管理，使得 GPU 能够同时容纳更多的请求，提高推理的容量。" },
+          { "type": "paragraph", "content": "**8.7.6 Quantization（量化）**：使用更低精度的数据类型来存储和计算模型的参数，从而减少模型占用存储空间和显存，并提升推理速度。" },
+          { "type": "highlight", "content": "量化精度对照：FP32（32 bit，精度最高，体积最大）→ FP16（16 bit，推理最常见）→ BF16（16 bit，数值范围更大，训练中更稳定）→ INT8（8 bit，模型更小，速度更快）→ INT4（4 bit，极致压缩，本地部署常见）。量化解决的最主要问题是能够使用更少的空间来部署一个相对较强的大模型。" },
+          { "type": "paragraph", "content": "**8.7.7 Speculative Decoding（推测解码）**：先使用小模型预测多个 Token，再由大模型一次性验证（并行）这些预测是否正确的推理优化技术，从而减少大模型的推理次数，提高生成速度。" },
+          { "type": "highlight", "content": "推理优化的本质，都是围绕三个点：1、减少重复计算；2、提高计算效率；3、减少资源消耗。" }
         ]
       }
     ]
