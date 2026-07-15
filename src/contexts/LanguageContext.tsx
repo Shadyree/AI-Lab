@@ -227,7 +227,7 @@ const translations = {
     'about.devops': '运维部署',
     'about.ai': 'AI 技术',
     'about.experience': '工作经历',
-    'about.job1Title': 'IT 技术主管',
+    'about.job1Title': 'IT 技术负责人',
     'about.job1d1': '负责智慧停车项目实施及现场技术支持。',
     'about.job1d2': '负责彩虹综合平台及 Rainbow 系统功能开发与持续维护。',
     'about.job1d3': '负责服务器部署、Linux 环境配置及系统上线。',
