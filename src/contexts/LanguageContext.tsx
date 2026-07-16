@@ -123,7 +123,7 @@ const translations = {
     'about.s6': 'Strong Prompt Engineering skills for designing high-quality prompts across different development scenarios, enabling rapid prototyping and PoC validation.',
     
     // Footer
-    'footer.copyright': '© 2026 DevForge · Build. Learn. Share.',
+    'footer.copyright': '© 2026 XianRui.AI · Build. Learn. Share.',
     
     // Knowledge Categories
     'category.ai': 'AI',
@@ -250,7 +250,7 @@ const translations = {
     'about.s6': '具备 Prompt Engineering 能力，能够针对不同开发场景设计高质量 Prompt，提升 AI 代码生成及问题解决效果，并能够结合 AI 工具完成快速原型开发与技术验证（PoC）。',
     
     // Footer
-    'footer.copyright': '© 2026 DevForge · 构建 · 学习 · 分享',
+    'footer.copyright': '© 2026 XianRui.AI · 构建 · 学习 · 分享',
     
     // Knowledge Categories
     'category.ai': 'AI',

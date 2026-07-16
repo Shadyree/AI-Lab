@@ -23,7 +23,7 @@ export default function Header() {
     <header className="header-glass fixed top-0 left-0 right-0 z-50">
       <div className="max-w-[1200px] mx-auto px-6 h-16 grid grid-cols-[1fr_auto_1fr] items-center">
         <Link href="/" className="text-lg font-semibold text-[var(--n-900)] justify-self-start">
-          DevForge
+          XianRui.AI
         </Link>
         <nav className="flex items-center gap-2">
           {navItems.map((item) => {
