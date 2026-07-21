@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'AI Lab - Build. Learn. Share.',
+  title: 'XianRui - Build. Learn. Share.',
   description: 'A personal AI laboratory for documenting ideas, exploring AI systems, and sharing knowledge.',
 };
 
