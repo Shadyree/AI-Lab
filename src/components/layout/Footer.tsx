@@ -1,9 +1,30 @@
 'use client';
 
+import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+
+const EMAIL = '975838688@qq.com';
 
 export default function Footer() {
   const { t } = useLanguage();
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = EMAIL;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
 
   return (
     <footer className="border-t border-[var(--n-200)] bg-[var(--bg-primary)]">
@@ -46,6 +67,25 @@ export default function Footer() {
                 <rect x="1" y="1" width="22" height="22" rx="3" stroke="currentColor" strokeWidth="2" fill="none"/>
                 <text x="12" y="16" textAnchor="middle" fill="currentColor" fontSize="8" fontWeight="bold" fontFamily="sans-serif">CSDN</text>
               </svg>
+            </a>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handleCopyEmail();
+              }}
+              className="relative text-[var(--n-500)] hover:text-[var(--n-700)] transition-colors"
+              aria-label="Email"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="M22 6.5l-10 6.5L2 6.5" />
+              </svg>
+              {copied && (
+                <span className="absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-neutral-800 px-2 py-1 text-xs text-white shadow-sm">
+                  邮箱已复制
+                </span>
+              )}
             </a>
           </div>
         </div>
