@@ -83,21 +83,21 @@
     "roleEn": "AI Explorer",
     "roleZh": "AI 探索者",
     "period": "2025",
-    "descEn": "Started the AI journey: learned Ollama, independently deployed Deepseek locally, attended the first Modifangzhou Guizhou AI Developer Conference, and gained comprehensive understanding of domestic AI models and chat tools.",
-    "descZh": "正式踏入 AI 领域：学习 Ollama 使用，独立完成 Deepseek 本地部署，参与模力方舟贵州首届 AI 开发者大会，全面了解国内各家 AI 模型与聊天工具。",
+    "descEn": "Started the AI journey: learned Ollama, independently deployed DeepSeek locally, attended the first Modifangzhou Guizhou AI Developer Conference, and gained comprehensive understanding of domestic AI models and chat tools.",
+    "descZh": "正式踏入 AI 领域：学习 Ollama 使用，独立完成 DeepSeek 本地部署，参与模力方舟贵州首届 AI 开发者大会，全面了解国内各家 AI 模型与聊天工具。",
     "highlightsEn": [
-      "Learned Ollama and independently deployed Deepseek locally",
+      "Learned Ollama and independently deployed DeepSeek locally",
       "Attended Modifangzhou Guizhou First AI Developer Conference",
       "Familiar with major domestic AI chat software and platforms",
       "Gained comprehensive understanding of domestic AI models"
     ],
     "highlightsZh": [
-      "学习 Ollama 使用，独立完成 Deepseek 本地部署",
+      "学习 Ollama 使用，独立完成 DeepSeek 本地部署",
       "参与模力方舟贵州首届 AI 开发者大会",
       "熟悉国内各大 AI 聊天软件与平台",
       "全面了解国内各家 AI 模型"
     ],
-    "techStack": ["Ollama", "Deepseek", "Dify", "Python"]
+    "techStack": ["Ollama", "DeepSeek", "Dify", "Python"]
   },
   {
     "year": 2026,
